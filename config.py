@@ -24,6 +24,12 @@ max_work_exp_num = 3
 # 最大年龄
 max_age = 30
 
+# 本科毕业年龄
+bachelor_graduate_age=22
+
+# 最大延迟毕业年限
+max_graduate_delay_years = 2
+
 # 简历下载路径
 resume_download_dir = 'download'
 
