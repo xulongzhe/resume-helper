@@ -5,7 +5,7 @@ import config
 import resume
 import util
 
-log:Logger = util.get_log('invite.log')
+log:Logger = util.get_log('log/invite.log')
 resume.log = log
 
 if __name__ == '__main__':

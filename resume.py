@@ -324,7 +324,7 @@ def match_all(candidate: Candidate):
 
     # 薪资预期过高的不要
     provide_salary = candidate.out_school_years + (
-        config.bachelor_salary if candidate.education == '本科' else config.master_salary) + 2
+        config.bachelor_salary if candidate.education == '本科' else config.master_salary) + config.max_salary_float
     if candidate.expect_least_salary > provide_salary:
         reasons.append(f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k')
         match = False
