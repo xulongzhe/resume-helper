@@ -17,7 +17,7 @@ if __name__ == '__main__':
         lago = config.lago_config.get(config_key)
         log.info(f'Use config {config_key}')
 
-    for i in range(1, 10):
+    for i in range(1, 5):
         log.info(f'第{i}页')
         position_id, resumes = resume.list(lago, page=i)
         for header in resumes:
