@@ -299,7 +299,7 @@ def match_all(candidate: Candidate):
     reasons = []
     # 非本科和硕士不考虑
     if candidate.education not in ['本科', '硕士']:
-        reasons.append('本科以下')
+        reasons.append('学历本科以下或专升本')
         match = False
 
     # 国际大学top500
@@ -334,6 +334,6 @@ def match_all(candidate: Candidate):
         match = False
 
     if not match:
-        log.info('不符合条件：\n'+'\n'.join(f'{i}. {r}' for i, r in enumerate(reasons)))
+        log.info('不符合条件：\n'+'\n'.join(f'{i+1}. {r}' for i, r in enumerate(reasons)))
 
     return match

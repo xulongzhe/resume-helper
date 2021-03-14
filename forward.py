@@ -18,7 +18,7 @@ def filter_newly_download(lago, resumes):
         phone = r['phone']
         file_path = f'{config.resume_download_dir}/{name}-{phone}.pdf'
         if os.path.exists(file_path):
-            log.info(f'文件{file_path}已存在')
+            log.info(f'简历 {os.path.basename(file_path)} 已存在')
         else:
             resume.download(lago, resume_id, file_path)
             yield resume_id, file_path
