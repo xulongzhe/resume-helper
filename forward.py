@@ -8,7 +8,7 @@ import mail
 import resume
 import util
 
-log: Logger = util.get_log('invite.log')
+log: Logger = util.get_log('forward.log')
 resume.log = log
 
 def filter_newly_download(lago, resumes):
