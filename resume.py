@@ -140,7 +140,7 @@ def detail_by_id(lago, resume_id):
 
 
 def invite(lago, user_id, position_id):
-    log.info('发送邀请')
+    log.info('符合条件, 发送邀请')
 
     url = (f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}")
 
