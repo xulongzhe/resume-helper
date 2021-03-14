@@ -29,7 +29,7 @@ def request_download(headers, url, path):
     with open(path, "wb") as code:
         code.write(response.content)
     time.sleep(3 if config.debug else 10)
-    log.info(f"文件下载：{path}")
+    log.info(f"下载简历：{path}")
 
 
 def complete_list(lago):
