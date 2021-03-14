@@ -9,7 +9,8 @@ import requests
 
 import config
 
-log:Logger = None
+log: Logger = None
+
 
 def request_internal(method, headers, payload, url):
     if config.debug:
@@ -226,10 +227,10 @@ class Candidate(NamedTuple):
     out_school_years: int
     over_year_work: bool
     work_exp_num: int
+    graduate_delay_year: int
 
     def __str__(self):
         return f"{self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'}"
-
 
 
 def parse_detail(detail):
@@ -249,17 +250,22 @@ def parse_detail(detail):
             break
 
     birthday = detail['birthday']
+    birthyear = detail['birthYear']
     salarys = detail['expectJob']['salarys']
     expect_least_salary = int(salarys.split('-')[-1].rstrip('k'))
     college = detail['latestEducationExperience']
     college_name = college['schoolName']
     subject = college['professional']
     graduate_date = college['endDate']
-    try:
-        graduate_year = datetime.datetime.strptime(graduate_date, '%Y.%m').year
-    except:
-        graduate_year = datetime.datetime.strptime(graduate_date, '%Y').year
+    graduate_year = date_to_year(graduate_date)
     out_school_years = datetime.datetime.now().year - graduate_year
+
+    if highest_education == '本科' and birthyear > 0:
+        delay_year = graduate_year - birthyear - config.bachelor_graduate_age
+        graduate_delay_year = 0 if delay_year < 0 else delay_year
+    else:
+        graduate_delay_year = 0
+
     workYear = detail['workYear']
     work_years = workYear.rstrip('年') if workYear.endswith('年') else 0
     work_experiences = detail['workExperiences']
@@ -276,7 +282,17 @@ def parse_detail(detail):
                      work_years=work_years,
                      out_school_years=out_school_years,
                      work_exp_num=work_exp_num,
-                     over_year_work=over_year_work)
+                     over_year_work=over_year_work,
+                     graduate_delay_year=graduate_delay_year
+                     )
+
+
+def date_to_year(date):
+    try:
+        year = datetime.datetime.strptime(date, '%Y.%m').year
+    except:
+        year = datetime.datetime.strptime(date, '%Y').year
+    return year
 
 
 def has_over_year_work(work_experiences):
@@ -297,6 +313,12 @@ def has_over_year_work(work_experiences):
 def match_all(candidate: Candidate):
     match = True
     reasons = []
+
+    # 毕业延迟年份过多
+    if candidate.graduate_delay_year > config.max_graduate_delay_years:
+        reasons.append(f'毕业延迟年份过多: {candidate.graduate_delay_year}')
+        match = False
+
     # 非本科和硕士不考虑
     if candidate.education not in ['本科', '硕士']:
         reasons.append('学历本科以下或专升本')
@@ -334,6 +356,6 @@ def match_all(candidate: Candidate):
         match = False
 
     if not match:
-        log.info('不符合条件：\n'+'\n'.join(f'{i+1}. {r}' for i, r in enumerate(reasons)))
+        log.info('不符合条件：\n' + '\n'.join(f'{i + 1}. {r}' for i, r in enumerate(reasons)))
 
     return match
