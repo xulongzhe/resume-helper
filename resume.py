@@ -217,6 +217,8 @@ def download(lago, resume_id, path):
 class Candidate(NamedTuple):
     name: str
     age: int
+    phone: str
+    email: str
     education: str
     birthday: str
     expect_least_salary: int
@@ -230,13 +232,14 @@ class Candidate(NamedTuple):
     graduate_delay_year: int
 
     def __str__(self):
-        return f"{self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'}"
+        return f"{self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
 
 
 def parse_detail(detail):
     name = detail['name']
     age = int(detail['ageNum'])
-
+    phone = detail.get('phone', '')
+    email = detail.get('email', '')
     # 判定学历
     match_education = re.match('小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
     if match_education:
@@ -273,6 +276,8 @@ def parse_detail(detail):
     over_year_work = has_over_year_work(work_experiences)
     return Candidate(name=name,
                      age=age,
+                     phone=phone,
+                     email=email,
                      education=highest_education,
                      birthday=birthday,
                      expect_least_salary=expect_least_salary,
@@ -349,7 +354,7 @@ def match_all(candidate: Candidate):
     provide_salary = candidate.out_school_years + (
         config.bachelor_salary if candidate.education == '本科' else config.master_salary) + config.max_salary_float
     if candidate.expect_least_salary > provide_salary:
-        reasons.append(f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k')
+        reasons.append(f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k（建议{provide_salary}k）')
         match = False
 
     if candidate.age > config.max_age:

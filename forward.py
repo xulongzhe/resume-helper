@@ -45,7 +45,7 @@ if __name__ == '__main__':
             mail = mail.Email(config.email_sender, config.email_smtp_sever, config.email_sender, config.email_password)
             now = time.strftime("%Y-%m-%d %H:%M", time.localtime())
             title = f'{now} 收到简历{len(need_sends)}份'
-            content = ''.join([str(resume.parse_detail(detail)) for _, detail in need_sends])
+            content = '\n'.join([str(resume.parse_detail(detail)) for _, detail in need_sends])
             attaches = [file_path for file_path, _ in need_sends]
             mail.send(config.email_receivers, title, content, attaches)
             log.info(title)
