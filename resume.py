@@ -336,9 +336,10 @@ def match_all(candidate: Candidate):
     # 排名不在要求的范围，则必须符合一级学科
     if not re.match('^' + config.top_college_china + '$', candidate.college_name):
         if candidate.subject not in config.top_class_subject.get(candidate.college_name, []):
-            reasons.append(f'学校排名靠后并且非国家一级学科： {candidate.college_name} {candidate.subject}')
+            reasons.append(f'学校排名靠后并且非一级学科： {candidate.college_name} {candidate.subject}')
             match = False
-
+        else:
+            log.info(f'符合一级学科 {candidate.college_name} {candidate.subject}')
     # 没毕业
     if candidate.out_school_years <= 0:
         reasons.append('还没毕业')
