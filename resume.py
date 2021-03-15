@@ -89,8 +89,8 @@ def list(lago, page):
     return current_position_id, result_list
 
 
-def detail_by_key(lago, fetch_key):
-    url = f"https://easy.lagou.com/search/resume/fetchResume.json?resumeFetchKey={fetch_key}==&expectJobId=9129785"
+def detail_by_key(lago, fetch_key, expect_job_id):
+    url = f"https://easy.lagou.com/search/resume/fetchResume.json?resumeFetchKey={fetch_key}==&expectJobId={expect_job_id}"
 
     payload = {}
     headers = {
@@ -252,7 +252,7 @@ def parse_detail(detail):
     birthday = detail['birthday']
     birthyear = detail['birthYear']
     salarys = detail['expectJob']['salarys']
-    expect_least_salary = int(salarys.split('-')[-1].rstrip('k'))
+    expect_least_salary = int(salarys.split('-')[0].rstrip('k'))
     college = detail['latestEducationExperience']
     college_name = college['schoolName']
     subject = college['professional']

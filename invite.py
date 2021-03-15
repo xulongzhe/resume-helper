@@ -17,7 +17,8 @@ if __name__ == '__main__':
             for header in resumes:
                 fetchKey = header['resumeFetchKey']
                 user_id = header['userId']
-                r = resume.detail_by_key(lago, fetchKey)
+                job_id = header['expectJobId']
+                r = resume.detail_by_key(lago, fetchKey, job_id)
                 detail = r['resume']
                 candidate = resume.parse_detail(detail)
                 log.info(str(candidate))
