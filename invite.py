@@ -9,7 +9,8 @@ log:Logger = util.get_log('log/invite.log')
 resume.log = log
 
 if __name__ == '__main__':
-    for lago in config.lago_config:
+    for key, lago in config.lago_config.items():
+        log.info(f'=== 岗位：{key} ===')
         for i in range(1, 5):
             log.info(f'第{i}页')
             position_id, resumes = resume.list(lago, page=i)
