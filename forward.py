@@ -34,7 +34,8 @@ def filter_condition(lago, resumes):
 
 
 if __name__ == '__main__':
-    for lago in config.lago_config:
+    for key, lago in config.lago_config.items():
+        log.info(f'=== 岗位：{key} ===')
         os.makedirs(config.resume_download_dir, exist_ok=True)
         resumes = resume.complete_list(lago)
         downloads = filter_newly_download(lago, resumes)
