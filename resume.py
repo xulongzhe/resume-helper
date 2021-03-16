@@ -167,11 +167,9 @@ def invite(lago, user_id, position_id):
     j = request_internal('GET', headers, payload, url)
     session_id = j['content']['data']['sameCAndPositionChatInfo']['sessionId']
 
-    # 沟通模板编号
-    greeting_id = "19400766_b_1"
     url = f"https://easy.lagou.com/im/session/batchCreate/{session_id}.json"
 
-    payload = (f"greetingId={greeting_id}&positionId={position_id}&inviteDeliver=true")
+    payload = (f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true")
     headers = {
         'authority': 'easy.lagou.com',
         'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
@@ -217,6 +215,7 @@ def download(lago, resume_id, path):
 class Candidate(NamedTuple):
     name: str
     age: int
+    employ_type: str
     phone: str
     email: str
     education: str
@@ -225,6 +224,7 @@ class Candidate(NamedTuple):
     college_name: str
     subject: str
     graduate_year: int
+    fresh_graduate: bool
     work_years: int
     out_school_years: int
     over_year_work: bool
@@ -232,7 +232,7 @@ class Candidate(NamedTuple):
     graduate_delay_year: int
 
     def __str__(self):
-        return f"{self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
+        return f"{self.employ_type} {self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
 
 
 def parse_detail(detail):
@@ -269,12 +269,20 @@ def parse_detail(detail):
     else:
         graduate_delay_year = 0
 
+    now = datetime.datetime.now()
+
+    # 毕业季前，今年毕业的是应届，毕业季后，明年毕业的是应届
+    fresh_graduate = (now.month <= config.graduate_month and now.year == graduate_year) \
+            or (now.month > config.graduate_month and now.year + 1 == graduate_year)
+
+
     workYear = detail['workYear']
     work_years = workYear.rstrip('年') if workYear.endswith('年') else 0
     work_experiences = detail['workExperiences']
     work_exp_num = len(work_experiences)
     over_year_work = has_over_year_work(work_experiences)
     return Candidate(name=name,
+                     employ_type='待定',
                      age=age,
                      phone=phone,
                      email=email,
@@ -284,6 +292,7 @@ def parse_detail(detail):
                      college_name=college_name,
                      subject=subject,
                      graduate_year=graduate_year,
+                     fresh_graduate=fresh_graduate,
                      work_years=work_years,
                      out_school_years=out_school_years,
                      work_exp_num=work_exp_num,
@@ -308,60 +317,23 @@ def has_over_year_work(work_experiences):
         except:
             # 未填写在职时间
             continue
-        start_time = datetime.datetime.now() if start == '至今' else datetime.datetime.strptime(start, '%Y.%m')
-        end_time = datetime.datetime.now() if end == '至今' else datetime.datetime.strptime(end, '%Y.%m')
+        now = datetime.datetime.now()
+        start_time = now if start == '至今' else datetime.datetime.strptime(start, '%Y.%m')
+        end_time = now if end == '至今' else datetime.datetime.strptime(end, '%Y.%m')
         if (end_time - start_time).days > 365:
             return True
     return False
 
 
-def match_all(candidate: Candidate):
-    match = True
-    reasons = []
-
-    # 毕业延迟年份过多
-    if candidate.graduate_delay_year > config.max_graduate_delay_years:
-        reasons.append(f'毕业延迟年份过多: {candidate.graduate_delay_year}')
-        match = False
-
-    # 非本科和硕士不考虑
-    if candidate.education not in ['本科', '硕士']:
-        reasons.append('学历本科以下或专升本')
-        match = False
-
-    # 国际大学top500
-    if re.match(config.top_college_global, candidate.college_name):
-        match = True
-
-    # 独立学院排除
-    if re.match(config.top_college_china, candidate.college_name) and candidate.college_name.endswith('学院'):
-        reasons.append(f'独立学院：{candidate.college_name}')
-        match = False
-
-    # 排名不在要求的范围，则必须符合一级学科
-    if not re.match('^' + config.top_college_china + '$', candidate.college_name):
-        if candidate.subject not in config.top_class_subject.get(candidate.college_name, []):
-            reasons.append(f'学校排名靠后并且非一级学科： {candidate.college_name} {candidate.subject}')
-            match = False
+def match_all(employ_types: set, candidate: Candidate):
+    for employ_type, match in config.matchers:
+        if employ_type not in employ_types:
+            continue
+        reasons = match(candidate)
+        if reasons:
+            log.info(f'{candidate.name}: 不符合{employ_type}条件：\n' + '\n'.join(f'{i + 1}. {r}' for i, r in enumerate(reasons)))
         else:
-            log.info(f'符合一级学科 {candidate.college_name} {candidate.subject}')
-    # 没毕业
-    if candidate.out_school_years <= 0:
-        reasons.append('还没毕业')
-        match = False
+            log.info(f'{candidate.name}: 符合{employ_type}条件')
+            return employ_type
+    return None
 
-    # 薪资预期过高的不要
-    provide_salary = candidate.out_school_years + (
-        config.bachelor_salary if candidate.education == '本科' else config.master_salary) + config.max_salary_float
-    if candidate.expect_least_salary > provide_salary:
-        reasons.append(f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k（建议{provide_salary}k）')
-        match = False
-
-    if candidate.age > config.max_age:
-        reasons.append(f'年龄过大：{candidate.age}')
-        match = False
-
-    if not match:
-        log.info('不符合条件：\n' + '\n'.join(f'{i + 1}. {r}' for i, r in enumerate(reasons)))
-
-    return match
