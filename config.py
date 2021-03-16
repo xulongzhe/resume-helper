@@ -50,7 +50,7 @@ lago_config = {
         email_receivers=[
             '942980741@qq.com',
             'chenpeiqin@uniview.com',
-            'zhulinghai@uniview.com'
+            'wangyoukai@uniview.com'
         ]
     )
 }
