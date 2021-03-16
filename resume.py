@@ -214,6 +214,7 @@ def download(lago, resume_id, path):
 
 class Candidate(NamedTuple):
     name: str
+    sex: str
     age: int
     employ_type: str
     phone: str
@@ -230,14 +231,36 @@ class Candidate(NamedTuple):
     over_year_work: bool
     work_exp_num: int
     graduate_delay_year: int
+    
+    def html(self):
+        return f'''
+        <tr>
+        <td>{self.employ_type}</td>
+        <td>{self.name}</td>
+        <td>{self.sex} </td>
+        <td>{self.college_name} </td>
+        <td>{self.education} </td>
+        <td>{self.subject}</td>
+        <td>{self.graduate_year}毕业 </td>
+        <td>毕业{self.out_school_years}年</td>
+        <td>工作{self.work_years}年</td>
+        <td>{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}</td>
+        <td>{self.birthday} </td>
+        <td>{str(self.age) + '岁' if self.age > 0 else '年龄未知'}</td>
+        <td>{self.phone} </td>
+        <td>{self.email}</td>
+        <td>{self.expect_least_salary}k</td>
+        </tr>
+        '''
 
     def __str__(self):
-        return f"{self.employ_type} {self.name} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
+        return f"{self.employ_type} {self.name} {self.sex} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
 
 
 def parse_detail(detail):
     name = detail['name']
     age = int(detail['ageNum'])
+    sex = detail['sex']
     phone = detail.get('phone', '')
     email = detail.get('email', '')
     # 判定学历
@@ -282,8 +305,9 @@ def parse_detail(detail):
     work_exp_num = len(work_experiences)
     over_year_work = has_over_year_work(work_experiences)
     return Candidate(name=name,
-                     employ_type='待定',
                      age=age,
+                     sex=sex,
+                     employ_type='待定',
                      phone=phone,
                      email=email,
                      education=highest_education,

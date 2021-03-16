@@ -22,7 +22,7 @@ class Email:
         message['To'] = ','.join(receivers)
         message['Subject'] = Header(title, 'utf-8')
 
-        message.attach(MIMEText(content, 'plain', 'utf-8'))
+        message.attach(MIMEText(content, 'html', 'utf-8'))
 
         for attach in attaches:
             file = open(attach, 'rb')

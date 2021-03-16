@@ -18,23 +18,24 @@ class LagoConfig(NamedTuple):
 
 lago_config = {
     'java1': LagoConfig(
-        name='java',
+        name='杭州Java正式',
         cookie='user_trace_token=20210306183907-8db0762b-31a9-435b-ba9e-e838904cf628; LGUID=20210306183907-ac289fca-17b9-4531-a6c7-6c1bc65082de; _ga=GA1.2.574457393.1615027148; index_location_city=%E6%9D%AD%E5%B7%9E; LG_LOGIN_USER_ID=a77721cdd129f6e5c56256928626a7b236c17231454e61dfd4dfefd846935bfa; LG_HAS_LOGIN=1; privacyPolicyPopup=false; gray=resume; _ga=GA1.3.574457393.1615027148; _putrc=A74EE0545FAEB7E6123F89F2B170EADC; PRE_UTM=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2F; login=true; unick=%E7%94%A8%E6%88%B78547; sensorsdata2015session=%7B%7D; _gid=GA1.2.707930289.1615600781; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615027148,1615090947,1615092831,1615600781; LGSID=20210313095938-b4145353-a1c4-41a0-83e6-ad3a0ec5dc5e; PRE_HOST=www.google.com; PRE_SITE=https%3A%2F%2Fwww.google.com%2F; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615600787; JSESSIONID=ABAAAECABFEACCE77F5E104D5B88F303E127578E6093561; mds_login_authToken="XmqICexMmwhmpxoY0S5HtBA1TrwQlUBdSkHMoer58N7kAlgpn7PdV6NUc7Hc3GicuI71VRpPpFF+35C4GIdq5STSugOp8b0wVKn9QRIWFoTbwdWHU2BjY7drCnFn+T5AHG/PMQp9QAjnc18UPEAVY9hHCJV+wgpslk676NDAUpZ4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; mds_u_n=%5Cu7528%5Cu62378547; mds_u_ci=116597; mds_u_cn=%5Cu6d59%5Cu6c5f%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280%5Cu6709%5Cu9650%5Cu516c%5Cu53f8; mds_u_s_cn=%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280; gate_login_token=188aa1d3e5e9e21b1fa3b529ae08ad15e5cc2237e6e53d2ddde495f97c77d142; WEBTJ-ID=20210313%E4%B8%8A%E5%8D%889:59:48095948-178294fa3ce6a9-0620a6158f1241-5771133-2073600-178294fa3cfc5f; Hm_lvt_b53988385ecf648a7a8254b14163814d=1615027297,1615090950,1615092835,1615600789; qimo_seosource_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E7%AB%99%E5%86%85; qimo_seokeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=; qimo_xstKeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=; href=https%3A%2F%2Feasy.lagou.com%2Fim%2Fchat%2Findex.htm%3F; accessId=551129f0-7fc2-11e6-bcdb-855ca3cec030; X_MIDDLE_TOKEN=c3198eacffd82873b2faa0c4a39143d9; _gat=1; pageViewNum=3; X_HTTP_TOKEN=30f9ba15b7ce436c6341065161333b5dc5b3a7b36d; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2219400766%22%2C%22first_id%22%3A%22178071e95cff8-0c71bd9d569dde-53e356a-2073600-178071e95d0c35%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24os%22%3A%22Windows%22%2C%22%24browser%22%3A%22Chrome%22%2C%22%24browser_version%22%3A%2289.0.4389.82%22%2C%22easy_company_id%22%3A%22116597%22%2C%22lagou_company_id%22%3A%22126437%22%7D%2C%22%24device_id%22%3A%22178071e95cff8-0c71bd9d569dde-53e356a-2073600-178071e95d0c35%22%7D; LGRID=20210313101036-3e5da7b2-e9eb-4698-b2fc-96a038241b47; Hm_lpvt_b53988385ecf648a7a8254b14163814d=1615601439; gray=resume',
         root_position_id="7815536",
         greeting_id="19400766_b_1",
-        employ_types={'社招'},
+        employ_types={'社招正式'},
         email_receivers=[
             '942980741@qq.com',
             'xulongzhe@uniview.com',
-            'konghuadi@uniview.com'
+            'konghuadi@uniview.com',
+            'wangxiuzi@unview.com'
         ]
     ),
     'java2': LagoConfig(
-        name='bigdata',
+        name='杭州Java外协',
         cookie='user_trace_token=20210315161124-6b5dcc77-9414-4e2a-97c6-fbc92e49a41d; LGUID=20210315161124-a551c78c-5b21-4cc6-9162-32ea662fdc5b; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615625217,1615645263,1615729412,1615795885; sensorsdata2015session=%7B%7D; _ga=GA1.2.1123681722.1615795885; index_location_city=%E6%9D%AD%E5%B7%9E; LG_HAS_LOGIN=1; privacyPolicyPopup=false; JSESSIONID=ABAAABAABJBABFH6F6D72498DE196179AD6B4661E2B60B2; mds_u_ci=116597; mds_u_cn=%5Cu6d59%5Cu6c5f%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280%5Cu6709%5Cu9650%5Cu516c%5Cu53f8; mds_u_s_cn=%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280; gray=resume; WEBTJ-ID=20210315%E4%B8%8B%E5%8D%884:13:44161344-17834f2b349134-08ca846d9ff393-3b710f51-1440000-17834f2b34a667; _ga=GA1.3.1123681722.1615795885; href=https%3A%2F%2Feasy.lagou.com%2Fposition%2FmultiChannel%2FmyOnlinePositions.htm%3FpageNo%3D1; PRE_UTM=; PRE_HOST=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2F; LGSID=20210316173049-55c253e7-bc01-412c-b5ef-f5a8ad34ff63; PRE_SITE=; _gat=1; _gid=GA1.2.631973644.1615887048; LG_LOGIN_USER_ID=bcebe6d7046bf59c04dd62181443e5050f6da3c0e1395842feb6cef405e4fd62; _putrc=4EEDAF119B4AD87D123F89F2B170EADC; login=true; unick=%E6%8B%89%E5%8B%BE%E7%94%A8%E6%88%B75054; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615887062; mds_login_authToken="GE8COWVxEPz8QSe9tIIr7ppD8nWS7x8GIIzSVSBIVmcAInhOZ9AfRAS9D/PiitkCf/Wf5+tkqRUR1AANP2MKLTkxFzUW93uha4IsVEYKlq7AolcTLzxxZHpikJlTyEBggRVuAJwpxGjfCJ2I0lf8LCs10J+KLv54X0RcinED41Z4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; mds_u_n=%5Cu5218%5Cu6e05; gate_login_token=6faac7240e1b24a67dfdfea449fd82aae4faf0d1d0a4bf5974394090bd5c285a; Hm_lvt_b53988385ecf648a7a8254b14163814d=1615725399,1615729428,1615796025,1615887074; qimo_seosource_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E5%85%B6%E4%BB%96%E7%BD%91%E7%AB%99; qimo_seokeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E6%9C%AA%E7%9F%A5; qimo_xstKeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=; accessId=551129f0-7fc2-11e6-bcdb-855ca3cec030; X_HTTP_TOKEN=3e90417c2484c9ff4907885161b764c0328882832b; Hm_lpvt_b53988385ecf648a7a8254b14163814d=1615887093; LGRID=20210316173135-218b0171-28bf-471b-9a98-771e80134208; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2212427350%22%2C%22first_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24os%22%3A%22UNIX%22%2C%22%24browser%22%3A%22Chrome%22%2C%22%24browser_version%22%3A%2288.0.4324.150%22%2C%22easy_company_id%22%3A%22116597%22%2C%22lagou_company_id%22%3A%22126437%22%7D%2C%22%24device_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%7D; pageViewNum=2',
         root_position_id='8441573',
         greeting_id='12427350_b_1',
-        employ_types={'外协'},
+        employ_types={'社招外协'},
         email_receivers=[
             '942980741@qq.com',
             'xulongzhe@uniview.com',
@@ -42,15 +43,14 @@ lago_config = {
         ]
     ),
     'test': LagoConfig(
-        name='test',
+        name='杭州测试正式',
         cookie='user_trace_token=20210315161124-6b5dcc77-9414-4e2a-97c6-fbc92e49a41d; LGUID=20210315161124-a551c78c-5b21-4cc6-9162-32ea662fdc5b; _ga=GA1.2.1123681722.1615795885; index_location_city=%E6%9D%AD%E5%B7%9E; LG_HAS_LOGIN=1; gray=resume; _ga=GA1.3.1123681722.1615795885; _gid=GA1.2.631973644.1615887048; accessId=551129f0-7fc2-11e6-bcdb-855ca3cec030; PRE_UTM=; PRE_HOST=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2F; LGSID=20210316220707-de6f4ddb-e20e-460c-aeca-ed8f6e1f556b; PRE_SITE=https%3A%2F%2Fwww.lagou.com; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615645263,1615729412,1615795885,1615903625; sensorsdata2015session=%7B%7D; LG_LOGIN_USER_ID=61981df09bffc6369b14c0a23c1a1056ed52d755ddf27c80682344a73f20b145; _putrc=8EFC561A5E84E618123F89F2B170EADC; login=true; unick=%E7%94%A8%E6%88%B70762; _gat=1; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615903752; JSESSIONID=ABAAABAABJBABFH7B31F8F5662D3B9000FAE422A92B1B3A; mds_login_authToken="Uqa74GC64BWA+X4F4gHmb71jbOoksCtKXD9dX2r9XG2ZhVrmqCO5A2Ksf2nkLRTx6EmGkpZZrIy2jIWN6Vdqw60qFVN6KHuWXs1NoP2GS2husIJr35Ak01OYt6kDQI5j0wwQQYzHUviAG0JirK65mz7dDE+nyq16vfOnYbb6DnN4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; mds_u_n=%5Cu7528%5Cu62370762; mds_u_ci=116597; mds_u_cn=%5Cu6d59%5Cu6c5f%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280%5Cu6709%5Cu9650%5Cu516c%5Cu53f8; mds_u_s_cn=%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280; gate_login_token=4c49a2dbdfc70ebede013d5a5e9cd33fc02c783ce8c112a1ba8b4cf259b8a41b; WEBTJ-ID=20210316%E4%B8%8B%E5%8D%8810:09:17220917-1783b5e935e3eb-0f908fa2c5969d-3b710f51-3110400-1783b5e935f6f2; Hm_lvt_b53988385ecf648a7a8254b14163814d=1615729428,1615796025,1615887074,1615903758; qimo_seosource_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E5%85%B6%E4%BB%96%E7%BD%91%E7%AB%99; qimo_seokeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E6%9C%AA%E7%9F%A5; qimo_xstKeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=; href=https%3A%2F%2Feasy.lagou.com%2Fdashboard%2Findex.htm%3Ffrom%3Dc_index; Hm_lpvt_b53988385ecf648a7a8254b14163814d=1615903765; LGRID=20210316220927-937e20d6-32c3-4c58-922a-93fbb768e2f6; X_HTTP_TOKEN=3e90417c2484c9ff7673095161b764c0328882832b; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2220653133%22%2C%22first_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24os%22%3A%22UNIX%22%2C%22%24browser%22%3A%22Chrome%22%2C%22%24browser_version%22%3A%2288.0.4324.150%22%2C%22easy_company_id%22%3A%22116597%22%2C%22lagou_company_id%22%3A%22126437%22%7D%2C%22%24device_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%7D; pageViewNum=4',
         root_position_id='8448496',
         greeting_id='20653133_b_1',
-        employ_types={'社招'},
+        employ_types={'社招正式'},
         email_receivers=[
             '942980741@qq.com',
-            'chenpeiqin@uniview.com',
-            'wangyoukai@uniview.com'
+            'chenpeiqin@uniview.com'
         ]
     )
 }
@@ -78,9 +78,9 @@ max_age = 30
 max_graduate_delay_years = 2
 # 简历筛选规则
 matchers = [
-    ('社招', rules.match_formal),
+    ('社招正式', rules.match_formal),
     ('应届', rules.match_fresh_graduate),
-    ('外协', rules.match_outsource),
+    ('社招外协', rules.match_outsource),
     ('实习生', rules.match_intern)
 ]
 
