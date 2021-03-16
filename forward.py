@@ -31,7 +31,7 @@ def filter_condition(lago, resumes):
         candidate = resume.parse_detail(detail)
         log.info(str(candidate))
         emp_type = resume.match_all(lago.employ_types, candidate)
-        candidate._replace(employ_type=emp_type)
+        candidate = candidate._replace(employ_type=emp_type)
         if emp_type:
             yield file_path, candidate
 
@@ -45,8 +45,8 @@ def forward(lago):
     if need_sends:
         m = mail.Email(config.email_sender, config.email_smtp_sever, config.email_sender, config.email_password)
         now = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-        title = f'{now} 收到简历{len(need_sends)}份'
-        content = '\n'.join([str(candidate) for _, candidate in need_sends])
+        title = f'{now} 收到 {lago.name} 简历{len(need_sends)}份'
+        content = '<br>'.join([str(candidate) for _, candidate in need_sends])
         attaches = [file_path for file_path, _, in need_sends]
         m.send(lago.email_receivers, title, content, attaches)
         log.info(title)

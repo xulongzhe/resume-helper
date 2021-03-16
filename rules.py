@@ -3,6 +3,7 @@ import datetime
 import config
 from resume import Candidate
 
+
 def match_fresh_graduate(candidate: Candidate) -> list:
     reasons = []
     if not candidate.fresh_graduate:
@@ -43,6 +44,7 @@ def match_intern(candidate: Candidate) -> list:
         reasons.append(f'年龄过大：{candidate.age}')
     return reasons
 
+
 def match_outsource(candidate: Candidate) -> list:
     reasons = []
 
@@ -59,8 +61,7 @@ def match_outsource(candidate: Candidate) -> list:
         reasons.append('学历本科以下或专升本')
 
     # 薪资预期过高的不要
-    provide_salary = candidate.out_school_years + (
-        config.bachelor_salary if candidate.education == '本科' else config.master_salary) + config.max_salary_float
+    provide_salary = candidate.out_school_years + config.outsource_salary + config.max_salary_float
     if candidate.expect_least_salary > provide_salary:
         reasons.append(
             f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k（建议{provide_salary}k）')
@@ -69,6 +70,7 @@ def match_outsource(candidate: Candidate) -> list:
         reasons.append(f'年龄过大：{candidate.age}')
 
     return reasons
+
 
 def match_formal(candidate: Candidate):
     reasons = []

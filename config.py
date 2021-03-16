@@ -2,35 +2,11 @@ from typing import NamedTuple
 
 import rules
 
+
 # 调试模式
 debug = False
 
-# 本科起薪
-bachelor_salary = 8
-# 硕士起薪
-master_salary = 10
-#
-intern_salary = 3
-# 本科毕业年龄
-bachelor_graduate_age = 22
-# 简历下载路径
-resume_download_dir = 'download'
-# 发送邮箱
-email_sender = 'tel15258826527@sina.com'
-# 邮箱密码
-email_password = '337413c8324ffb81'
-# smtp服务器
-email_smtp_sever = 'smtp.sina.com'
-
-matchers = [
-    ('社招', rules.match_formal),
-    ('应届', rules.match_fresh_graduate),
-    ('外协', rules.match_outsource),
-    ('实习生', rules.match_intern)
-]
-
-
-# 拉钩网配置类
+# ========================== 拉钩网配置类 =======================
 class LagoConfig(NamedTuple):
     name: str
     cookie: str
@@ -39,16 +15,6 @@ class LagoConfig(NamedTuple):
     employ_types: set
     email_receivers: list
 
-
-graduate_month = 7
-# 最大薪资浮动
-max_salary_float = 3
-# 最大工作经历阈值，与最大在职时间配合
-max_work_exp_num = 3
-# 最大年龄
-max_age = 30
-# 最大延迟毕业年限
-max_graduate_delay_years = 2
 
 lago_config = {
     'java1': LagoConfig(
@@ -74,8 +40,59 @@ lago_config = {
             'xulongzhe@uniview.com',
             'konghuadi@uniview.com'
         ]
+    ),
+    'test': LagoConfig(
+        name='test',
+        cookie='user_trace_token=20210315161124-6b5dcc77-9414-4e2a-97c6-fbc92e49a41d; LGUID=20210315161124-a551c78c-5b21-4cc6-9162-32ea662fdc5b; _ga=GA1.2.1123681722.1615795885; index_location_city=%E6%9D%AD%E5%B7%9E; LG_HAS_LOGIN=1; gray=resume; _ga=GA1.3.1123681722.1615795885; _gid=GA1.2.631973644.1615887048; accessId=551129f0-7fc2-11e6-bcdb-855ca3cec030; PRE_UTM=; PRE_HOST=; PRE_LAND=https%3A%2F%2Fwww.lagou.com%2F; LGSID=20210316220707-de6f4ddb-e20e-460c-aeca-ed8f6e1f556b; PRE_SITE=https%3A%2F%2Fwww.lagou.com; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615645263,1615729412,1615795885,1615903625; sensorsdata2015session=%7B%7D; LG_LOGIN_USER_ID=61981df09bffc6369b14c0a23c1a1056ed52d755ddf27c80682344a73f20b145; _putrc=8EFC561A5E84E618123F89F2B170EADC; login=true; unick=%E7%94%A8%E6%88%B70762; _gat=1; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1615903752; JSESSIONID=ABAAABAABJBABFH7B31F8F5662D3B9000FAE422A92B1B3A; mds_login_authToken="Uqa74GC64BWA+X4F4gHmb71jbOoksCtKXD9dX2r9XG2ZhVrmqCO5A2Ksf2nkLRTx6EmGkpZZrIy2jIWN6Vdqw60qFVN6KHuWXs1NoP2GS2husIJr35Ak01OYt6kDQI5j0wwQQYzHUviAG0JirK65mz7dDE+nyq16vfOnYbb6DnN4rucJXOpldXhUiavxhcCELWDotJ+bmNVwmAvQCptcy5e7czUcjiQC32Lco44BMYXrQ+AIOfEccJKHpj0vJ+ngq/27aqj1hWq8tEPFFjdnxMSfKgAnjbIEAX3F9CIW8BSiMHYmPBt7FDDY0CCVFICHr2dp5gQVGvhfbqg7VzvNsw=="; mds_u_n=%5Cu7528%5Cu62370762; mds_u_ci=116597; mds_u_cn=%5Cu6d59%5Cu6c5f%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280%5Cu6709%5Cu9650%5Cu516c%5Cu53f8; mds_u_s_cn=%5Cu5b87%5Cu89c6%5Cu79d1%5Cu6280; gate_login_token=4c49a2dbdfc70ebede013d5a5e9cd33fc02c783ce8c112a1ba8b4cf259b8a41b; WEBTJ-ID=20210316%E4%B8%8B%E5%8D%8810:09:17220917-1783b5e935e3eb-0f908fa2c5969d-3b710f51-3110400-1783b5e935f6f2; Hm_lvt_b53988385ecf648a7a8254b14163814d=1615729428,1615796025,1615887074,1615903758; qimo_seosource_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E5%85%B6%E4%BB%96%E7%BD%91%E7%AB%99; qimo_seokeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=%E6%9C%AA%E7%9F%A5; qimo_xstKeywords_551129f0-7fc2-11e6-bcdb-855ca3cec030=; href=https%3A%2F%2Feasy.lagou.com%2Fdashboard%2Findex.htm%3Ffrom%3Dc_index; Hm_lpvt_b53988385ecf648a7a8254b14163814d=1615903765; LGRID=20210316220927-937e20d6-32c3-4c58-922a-93fbb768e2f6; X_HTTP_TOKEN=3e90417c2484c9ff7673095161b764c0328882832b; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2220653133%22%2C%22first_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24os%22%3A%22UNIX%22%2C%22%24browser%22%3A%22Chrome%22%2C%22%24browser_version%22%3A%2288.0.4324.150%22%2C%22easy_company_id%22%3A%22116597%22%2C%22lagou_company_id%22%3A%22126437%22%7D%2C%22%24device_id%22%3A%2217834f0925f5f5-01f21226b5ce3e-3b710f51-1440000-17834f09260661%22%7D; pageViewNum=4',
+        root_position_id='8448496',
+        greeting_id='20653133_b_1',
+        employ_types={'社招'},
+        email_receivers=[
+            '942980741@qq.com',
+            'chenpeiqin@uniview.com',
+            'zhulinghai@uniview.com'
+        ]
     )
 }
+
+# ========================== 筛选条件配置 =======================
+# 本科起薪
+bachelor_salary = 8
+# 硕士起薪
+master_salary = 10
+# 实习生起薪
+intern_salary = 3
+# 外协起薪
+outsource_salary = 6
+# 本科毕业年龄
+bachelor_graduate_age = 22
+# 毕业季月份
+graduate_month = 7
+# 最大薪资浮动
+max_salary_float = 3
+# 最大工作经历阈值，与最大在职时间配合
+max_work_exp_num = 3
+# 最大年龄
+max_age = 30
+# 最大延迟毕业年限
+max_graduate_delay_years = 2
+# 简历筛选规则
+matchers = [
+    ('社招', rules.match_formal),
+    ('应届', rules.match_fresh_graduate),
+    ('外协', rules.match_outsource),
+    ('实习生', rules.match_intern)
+]
+
+# ========================== 邮件配置 =======================
+# 简历下载路径
+resume_download_dir = 'download'
+# 发送邮箱
+email_sender = 'tel15258826527@sina.com'
+# 邮箱密码
+email_password = '337413c8324ffb81'
+# smtp服务器
+email_smtp_sever = 'smtp.sina.com'
 
 # 全国大学top200
 top_college_china = ['北京大学', '清华大学', '复旦大学', '浙江大学', '南京大学', '上海交通大学', '华中科技大学', '中国科学技术大学', '中国人民大学', '天津大学', '武汉大学',
