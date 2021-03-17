@@ -355,9 +355,9 @@ def match_all(employ_types: set, candidate: Candidate):
             continue
         reasons = match(candidate)
         if reasons:
-            log.info(f'{candidate.name}: 不符合{employ_type}条件：\n' + '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
+            log.info(f'{candidate.name} 不符合{employ_type}条件：\n' + '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
         else:
-            log.info(f'{candidate.name}: 符合{employ_type}条件')
+            log.info(f'{candidate.name} 符合{employ_type}条件')
             return employ_type
     return None
 

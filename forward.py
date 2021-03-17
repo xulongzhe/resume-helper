@@ -16,6 +16,11 @@ resume.log = log
 def filter_newly_download(lago, resumes):
     for r in resumes:
         resume_id = r['id']
+        name = r['candidateName']
+        stage = r['stage']
+        if stage == 'OBSOLETE':
+            log.info(f'{name} 已标记为不合适，跳过')
+            continue
         detail = resume.detail_by_id(lago, resume_id)
         candidate = resume.parse_detail(detail)
         file_path = f'{config.resume_download_dir}/{lago.name}-{candidate.name}-{candidate.phone}.pdf'
