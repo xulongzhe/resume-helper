@@ -1,4 +1,5 @@
 import sys
+import datetime
 from logging import Logger
 
 import config
@@ -36,5 +37,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         invite(config.lago_config[sys.argv[1]])
     else:
+        if datetime.datetime.now().hour < config.start_hour:
+            log.info('晚上不跑')
+            exit()
         for key, lago in config.lago_config.items():
             invite(lago)
