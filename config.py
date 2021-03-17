@@ -62,16 +62,18 @@ lago_config = {
 bachelor_salary = 8
 # 硕士起薪
 master_salary = 10
+# 正式最大薪资浮动
+max_salary_float_formal = 3
 # 实习生起薪
 intern_salary = 3
 # 外协起薪
 outsource_salary = 6
+# 外协最大薪资浮动
+max_salary_float_formal_outsource = 2
 # 本科毕业年龄
 bachelor_graduate_age = 22
 # 毕业季月份
 graduate_month = 7
-# 最大薪资浮动
-max_salary_float = 3
 # 最大工作经历阈值，与最大在职时间配合
 max_work_exp_num = 3
 # 最大年龄
