@@ -326,6 +326,8 @@ def parse_detail(detail):
 
 
 def date_to_year(date):
+    if date == '至今':
+        year = datetime.datetime.now().year
     try:
         year = datetime.datetime.strptime(date, '%Y.%m').year
     except:
