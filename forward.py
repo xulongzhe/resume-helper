@@ -66,4 +66,8 @@ if __name__ == '__main__':
             log.info('晚上不跑')
             exit()
         for key, lago in config.lago_config.items():
-            forward(lago)
+            try:
+                forward(lago)
+            except Exception as e:
+                log.error(e)
+                
