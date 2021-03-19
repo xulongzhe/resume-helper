@@ -192,6 +192,30 @@ def invite(lago, user_id, position_id):
     request_internal('POST', headers, payload, url)
 
 
+def send_msg(position_id, user_id, msg):
+    url = "https://easy.lagou.com/im/chat/send/{user_id}.json"
+
+    payload=f"content={msg}&attach=9rchwz5diyc&lagouPositionId={position_id}&msgType=0"
+    headers = {
+    'authority': 'easy.lagou.com',
+    'accept': 'application/json, text/plain, */*',
+    'x-anit-forge-code': '3ecc0238-c1e6-4377-9551-240fded53905',
+    'x-requested-with': 'XMLHttpRequest',
+    'x-anit-forge-token': 'fdcc0155-88b8-4885-980d-d3562c1e7187',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
+    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'origin': 'https://easy.lagou.com',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    'referer': 'https://easy.lagou.com/im/chat/index.htm?',
+    'accept-language': 'zh-CN,zh;q=0.9',
+    'cookie': lago.cookie
+    }
+    
+    request_internal('POST', headers, payload, url)
+
+
 def download(lago, resume_id, path):
     url = f"https://easy.lagou.com/resume/download.htm?resumeId={resume_id}&preview=2"
     headers = {
