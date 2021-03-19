@@ -5,7 +5,7 @@ import rules
 
 
 # 调试模式
-debug = True
+debug = False
 # 一天开始的时间
 start_hour = 7
 

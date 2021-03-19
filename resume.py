@@ -192,6 +192,32 @@ def invite(lago, user_id, position_id):
     request_internal('POST', headers, payload, url)
 
 
+def chart_history(user_id):
+    url = "https://easy.lagou.com/im/chat/fetch_history_messages_page.json"
+
+    payload=f"sessionId={user_id}&maxMsgId=9223372036854775807&pageSize=10"
+    headers = {
+    'authority': 'easy.lagou.com',
+    'accept': 'application/json, text/plain, */*',
+    'x-anit-forge-code': '2c55580c-b509-4a5d-96fb-57b26e8a3732',
+    'x-requested-with': 'XMLHttpRequest',
+    'x-anit-forge-token': 'b4d41b21-b576-4a91-a622-b681a638bfe2',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
+    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'origin': 'https://easy.lagou.com',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    'referer': 'https://easy.lagou.com/im/chat/index.htm?',
+    'accept-language': 'zh-CN,zh;q=0.9',
+    'cookie': lago.cookie
+    }
+
+    request_internal('POST', headers, payload, url)
+
+
+
+
 def send_msg(position_id, user_id, msg):
     url = "https://easy.lagou.com/im/chat/send/{user_id}.json"
 
@@ -212,7 +238,7 @@ def send_msg(position_id, user_id, msg):
     'accept-language': 'zh-CN,zh;q=0.9',
     'cookie': lago.cookie
     }
-    
+
     request_internal('POST', headers, payload, url)
 
 
