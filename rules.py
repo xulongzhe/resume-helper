@@ -4,7 +4,7 @@ import config
 from resume import Candidate
 
 
-def match_fresh_graduate(candidate: Candidate) -> list:
+def match_fresh_graduate(candidate: Candidate):
     reasons = []
     if not candidate.fresh_graduate:
         reasons.append('非应届生')
@@ -25,7 +25,7 @@ def match_fresh_graduate(candidate: Candidate) -> list:
     return reasons
 
 
-def match_intern(candidate: Candidate) -> list:
+def match_intern(candidate: Candidate):
     reasons = []
     if datetime.datetime.now().year - candidate.graduate_year < 1:
         reasons.append('实习时间不足1年')
@@ -45,7 +45,7 @@ def match_intern(candidate: Candidate) -> list:
     return reasons
 
 
-def match_outsource(candidate: Candidate) -> list:
+def match_outsource(candidate: Candidate):
     reasons = []
 
     # 没毕业
@@ -61,7 +61,8 @@ def match_outsource(candidate: Candidate) -> list:
         reasons.append('学历本科以下或专升本')
 
     # 薪资预期过高的不要
-    provide_salary = candidate.out_school_years + config.outsource_salary + config.max_salary_float_formal
+    provide_salary = candidate.out_school_years + \
+        config.outsource_salary + config.max_salary_float_formal
     if candidate.expect_least_salary > provide_salary:
         reasons.append(
             f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k（建议{provide_salary}k）')
@@ -91,7 +92,8 @@ def match_formal(candidate: Candidate):
     if candidate.college_name not in config.top_college_global and \
             candidate.college_name not in config.top_college_china and \
             candidate.subject not in config.top_class_subject.get(candidate.college_name, []):
-        reasons.append(f'学校排名靠后并且非一级学科： {candidate.college_name} {candidate.subject}')
+        reasons.append(
+            f'学校排名靠后并且非一级学科： {candidate.college_name} {candidate.subject}')
 
     # 薪资预期过高的不要
     provide_salary = candidate.out_school_years + (
