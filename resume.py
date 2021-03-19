@@ -18,7 +18,7 @@ def request_internal(method, headers, payload, url):
     text = requests.request(method, url, headers=headers, data=payload).text
     if config.debug:
         log.info(f"响应：{text}")
-    time.sleep(10)
+    time.sleep(20)
     resp = json.loads(text)
     return resp
 
