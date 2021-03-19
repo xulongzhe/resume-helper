@@ -60,8 +60,7 @@ def complete_list(lago):
 
 
 def list(lago, page):
-    url = "https://easy.lagou.com/talent/rec/%s.json?positionId=%s&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false" % (
-        page, lago.root_position_id)
+    url = f"https://easy.lagou.com/talent/rec/{page}.json?positionId={lago.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false"
     payload = {}
     headers = {
         'authority': 'easy.lagou.com',
@@ -76,9 +75,7 @@ def list(lago, page):
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'cors',
         'sec-fetch-dest': 'empty',
-        'referer': (
-                'https://easy.lagou.com/talent/index.htm?positionId=%s&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false&tab=rec&pageNo=%s' % (
-            lago.root_position_id, page)),
+        'referer': f'https://easy.lagou.com/talent/index.htm?positionId={lago.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false&tab=rec&pageNo={page}',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
         'cookie': lago.cookie
     }
@@ -143,7 +140,8 @@ def detail_by_id(lago, resume_id):
 def invite(lago, user_id, position_id):
     log.info('符合条件, 发送邀请')
 
-    url = (f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}")
+    url = (
+        f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}")
 
     payload = {}
     headers = {
@@ -169,7 +167,8 @@ def invite(lago, user_id, position_id):
 
     url = f"https://easy.lagou.com/im/session/batchCreate/{session_id}.json"
 
-    payload = (f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true")
+    payload = (
+        f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true")
     headers = {
         'authority': 'easy.lagou.com',
         'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
@@ -195,48 +194,46 @@ def invite(lago, user_id, position_id):
 def chart_history(user_id):
     url = "https://easy.lagou.com/im/chat/fetch_history_messages_page.json"
 
-    payload=f"sessionId={user_id}&maxMsgId=9223372036854775807&pageSize=10"
+    payload = f"sessionId={user_id}&maxMsgId=9223372036854775807&pageSize=10"
     headers = {
-    'authority': 'easy.lagou.com',
-    'accept': 'application/json, text/plain, */*',
-    'x-anit-forge-code': '2c55580c-b509-4a5d-96fb-57b26e8a3732',
-    'x-requested-with': 'XMLHttpRequest',
-    'x-anit-forge-token': 'b4d41b21-b576-4a91-a622-b681a638bfe2',
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'origin': 'https://easy.lagou.com',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-dest': 'empty',
-    'referer': 'https://easy.lagou.com/im/chat/index.htm?',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'cookie': lago.cookie
+        'authority': 'easy.lagou.com',
+        'accept': 'application/json, text/plain, */*',
+        'x-anit-forge-code': '2c55580c-b509-4a5d-96fb-57b26e8a3732',
+        'x-requested-with': 'XMLHttpRequest',
+        'x-anit-forge-token': 'b4d41b21-b576-4a91-a622-b681a638bfe2',
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'origin': 'https://easy.lagou.com',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://easy.lagou.com/im/chat/index.htm?',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cookie': lago.cookie
     }
 
     request_internal('POST', headers, payload, url)
 
 
-
-
 def send_msg(position_id, user_id, msg):
     url = "https://easy.lagou.com/im/chat/send/{user_id}.json"
 
-    payload=f"content={msg}&attach=9rchwz5diyc&lagouPositionId={position_id}&msgType=0"
+    payload = f"content={msg}&attach=9rchwz5diyc&lagouPositionId={position_id}&msgType=0"
     headers = {
-    'authority': 'easy.lagou.com',
-    'accept': 'application/json, text/plain, */*',
-    'x-anit-forge-code': '3ecc0238-c1e6-4377-9551-240fded53905',
-    'x-requested-with': 'XMLHttpRequest',
-    'x-anit-forge-token': 'fdcc0155-88b8-4885-980d-d3562c1e7187',
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'origin': 'https://easy.lagou.com',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-dest': 'empty',
-    'referer': 'https://easy.lagou.com/im/chat/index.htm?',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'cookie': lago.cookie
+        'authority': 'easy.lagou.com',
+        'accept': 'application/json, text/plain, */*',
+        'x-anit-forge-code': '3ecc0238-c1e6-4377-9551-240fded53905',
+        'x-requested-with': 'XMLHttpRequest',
+        'x-anit-forge-token': 'fdcc0155-88b8-4885-980d-d3562c1e7187',
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'origin': 'https://easy.lagou.com',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://easy.lagou.com/im/chat/index.htm?',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cookie': lago.cookie
     }
 
     request_internal('POST', headers, payload, url)
@@ -281,7 +278,7 @@ class Candidate(NamedTuple):
     over_year_work: bool
     work_exp_num: int
     graduate_delay_year: int
-    
+
     def html(self):
         return f'''
         <tr>
@@ -314,7 +311,8 @@ def parse_detail(detail):
     phone = detail.get('phone', '')
     email = detail.get('email', '')
     # 判定学历
-    match_education = re.match('小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
+    match_education = re.match(
+        '小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
     if match_education:
         highest_education = match_education.group()
     else:
@@ -346,8 +344,7 @@ def parse_detail(detail):
 
     # 毕业季前，今年毕业的是应届，毕业季后，明年毕业的是应届
     fresh_graduate = (now.month <= config.graduate_month and now.year == graduate_year) \
-            or (now.month > config.graduate_month and now.year + 1 == graduate_year)
-
+        or (now.month > config.graduate_month and now.year + 1 == graduate_year)
 
     workYear = detail['workYear']
     work_years = workYear.rstrip('年') if workYear.endswith('年') else 0
@@ -394,8 +391,10 @@ def has_over_year_work(work_experiences):
             # 未填写在职时间
             continue
         now = datetime.datetime.now()
-        start_time = now if start == '至今' else datetime.datetime.strptime(start, '%Y.%m')
-        end_time = now if end == '至今' else datetime.datetime.strptime(end, '%Y.%m')
+        start_time = now if start == '至今' else datetime.datetime.strptime(
+            start, '%Y.%m')
+        end_time = now if end == '至今' else datetime.datetime.strptime(
+            end, '%Y.%m')
         if (end_time - start_time).days > 365:
             return True
     return False
@@ -407,9 +406,9 @@ def match_all(employ_types: set, candidate: Candidate):
             continue
         reasons = match(candidate)
         if reasons:
-            log.info(f'{candidate.name} 不符合{employ_type}条件：\n' + '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
+            log.info(f'{candidate.name} 不符合{employ_type}条件：\n' +
+                     '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
         else:
             log.info(f'{candidate.name} 符合{employ_type}条件')
             return employ_type
     return None
-
