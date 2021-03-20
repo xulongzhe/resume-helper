@@ -3,11 +3,11 @@ import json
 import re
 import time
 from logging import Logger
-from typing import NamedTuple
 
 import requests
 
 import config
+from candidate import Candidate
 
 log: Logger = None
 
@@ -140,8 +140,7 @@ def detail_by_id(lago, resume_id):
 def invite(lago, user_id, position_id):
     log.info('符合条件, 发送邀请')
 
-    url = (
-        f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}")
+    url = f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}"
 
     payload = {}
     headers = {
@@ -167,8 +166,7 @@ def invite(lago, user_id, position_id):
 
     url = f"https://easy.lagou.com/im/session/batchCreate/{session_id}.json"
 
-    payload = (
-        f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true")
+    payload = f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true"
     headers = {
         'authority': 'easy.lagou.com',
         'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
@@ -191,7 +189,7 @@ def invite(lago, user_id, position_id):
     request_internal('POST', headers, payload, url)
 
 
-def chart_history(user_id):
+def chart_history(lago, user_id):
     url = "https://easy.lagou.com/im/chat/fetch_history_messages_page.json"
 
     payload = f"sessionId={user_id}&maxMsgId=9223372036854775807&pageSize=10"
@@ -215,8 +213,8 @@ def chart_history(user_id):
     request_internal('POST', headers, payload, url)
 
 
-def send_msg(position_id, user_id, msg):
-    url = "https://easy.lagou.com/im/chat/send/{user_id}.json"
+def send_msg(lago, position_id, user_id, msg):
+    url = f"https://easy.lagou.com/im/chat/send/{user_id}.json"
 
     payload = f"content={msg}&attach=9rchwz5diyc&lagouPositionId={position_id}&msgType=0"
     headers = {
@@ -259,60 +257,15 @@ def download(lago, resume_id, path):
     request_download(headers, url, path)
 
 
-class Candidate(NamedTuple):
-    name: str
-    sex: str
-    age: int
-    employ_type: str
-    phone: str
-    email: str
-    education: str
-    birthday: str
-    expect_least_salary: int
-    college_name: str
-    subject: str
-    graduate_year: int
-    fresh_graduate: bool
-    work_years: int
-    out_school_years: int
-    over_year_work: bool
-    work_exp_num: int
-    graduate_delay_year: int
-
-    def html(self):
-        return f'''
-        <tr>
-        <td>{self.employ_type}</td>
-        <td>{self.name}</td>
-        <td>{self.sex} </td>
-        <td>{self.college_name} </td>
-        <td>{self.education} </td>
-        <td>{self.subject}</td>
-        <td>{self.graduate_year}毕业 </td>
-        <td>毕业{self.out_school_years}年</td>
-        <td>工作{self.work_years}年</td>
-        <td>{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}</td>
-        <td>{self.birthday} </td>
-        <td>{str(self.age) + '岁' if self.age > 0 else '年龄未知'}</td>
-        <td>{self.phone} </td>
-        <td>{self.email}</td>
-        <td>{self.expect_least_salary}k</td>
-        </tr>
-        '''
-
-    def __str__(self):
-        return f"{self.employ_type} {self.name} {self.sex} {self.college_name} {self.education} {self.subject} {self.graduate_year}毕业 毕业{self.out_school_years}年 工作{self.work_years}年（{self.work_exp_num}段经历{'' if self.over_year_work else ' 均未超过一年'}） 预期{self.expect_least_salary}k {self.birthday} {str(self.age) + '岁' if self.age > 0 else '年龄未知'} {self.phone} {self.email}"
-
-
 def parse_detail(detail):
+    resume_id = detail['resumeId']
     name = detail['name']
     age = int(detail['ageNum'])
     sex = detail['sex']
     phone = detail.get('phone', '')
     email = detail.get('email', '')
     # 判定学历
-    match_education = re.match(
-        '小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
+    match_education = re.match('小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
     if match_education:
         highest_education = match_education.group()
     else:
@@ -344,32 +297,34 @@ def parse_detail(detail):
 
     # 毕业季前，今年毕业的是应届，毕业季后，明年毕业的是应届
     fresh_graduate = (now.month <= config.graduate_month and now.year == graduate_year) \
-        or (now.month > config.graduate_month and now.year + 1 == graduate_year)
+                     or (now.month > config.graduate_month and now.year + 1 == graduate_year)
 
     workYear = detail['workYear']
     work_years = workYear.rstrip('年') if workYear.endswith('年') else 0
     work_experiences = detail['workExperiences']
     work_exp_num = len(work_experiences)
     over_year_work = has_over_year_work(work_experiences)
-    return Candidate(name=name,
-                     age=age,
-                     sex=sex,
-                     employ_type='待定',
-                     phone=phone,
-                     email=email,
-                     education=highest_education,
-                     birthday=birthday,
-                     expect_least_salary=expect_least_salary,
-                     college_name=college_name,
-                     subject=subject,
-                     graduate_year=graduate_year,
-                     fresh_graduate=fresh_graduate,
-                     work_years=work_years,
-                     out_school_years=out_school_years,
-                     work_exp_num=work_exp_num,
-                     over_year_work=over_year_work,
-                     graduate_delay_year=graduate_delay_year
-                     )
+    return Candidate(
+        resume_id=resume_id,
+        name=name,
+        age=age,
+        sex=sex,
+        employ_type='待定',
+        phone=phone,
+        email=email,
+        education=highest_education,
+        birthday=birthday,
+        expect_least_salary=expect_least_salary,
+        college_name=college_name,
+        subject=subject,
+        graduate_year=graduate_year,
+        fresh_graduate=fresh_graduate,
+        work_years=work_years,
+        out_school_years=out_school_years,
+        work_exp_num=work_exp_num,
+        over_year_work=over_year_work,
+        graduate_delay_year=graduate_delay_year
+    )
 
 
 def date_to_year(date):
@@ -391,10 +346,8 @@ def has_over_year_work(work_experiences):
             # 未填写在职时间
             continue
         now = datetime.datetime.now()
-        start_time = now if start == '至今' else datetime.datetime.strptime(
-            start, '%Y.%m')
-        end_time = now if end == '至今' else datetime.datetime.strptime(
-            end, '%Y.%m')
+        start_time = now if start == '至今' else datetime.datetime.strptime(start, '%Y.%m')
+        end_time = now if end == '至今' else datetime.datetime.strptime(end, '%Y.%m')
         if (end_time - start_time).days > 365:
             return True
     return False
@@ -406,8 +359,8 @@ def match_all(employ_types: set, candidate: Candidate):
             continue
         reasons = match(candidate)
         if reasons:
-            log.info(f'{candidate.name} 不符合{employ_type}条件：\n' +
-                     '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
+            log.info(
+                f'{candidate.name} 不符合{employ_type}条件：\n' + '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
         else:
             log.info(f'{candidate.name} 符合{employ_type}条件')
             return employ_type

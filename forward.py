@@ -70,4 +70,3 @@ if __name__ == '__main__':
                 forward(lago)
             except Exception as e:
                 log.error(e)
-                

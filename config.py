@@ -1,13 +1,12 @@
-# coding=utf-8
 from typing import NamedTuple
 
 import rules
 
-
 # 调试模式
-debug = False
+debug = True
 # 一天开始的时间
 start_hour = 7
+
 
 # ========================== 拉钩网配置类 =======================
 class LagoConfig(NamedTuple):

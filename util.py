@@ -1,15 +1,16 @@
 import logging as log
 
+
 def get_log(file):
     logger = log.getLogger()
     logger.setLevel('INFO')
-    BASIC_FORMAT = "[%(asctime)s %(levelname)s] %(message)s"
-    DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
-    formatter = log.Formatter(BASIC_FORMAT, DATE_FORMAT)
-    chlr = log.StreamHandler() # 输出到控制台的handler
+    basic_format = "[%(asctime)s %(levelname)s] %(message)s"
+    date_format = '%Y-%m-%d %H:%M:%S'
+    formatter = log.Formatter(basic_format, date_format)
+    chlr = log.StreamHandler()
     chlr.setFormatter(formatter)
-    chlr.setLevel('INFO')  # 也可以不设置，不设置就默认用logger的level
-    fhlr = log.FileHandler(file) # 输出到文件的handler
+    chlr.setLevel('INFO')
+    fhlr = log.FileHandler(file)
     fhlr.setFormatter(formatter)
     logger.addHandler(chlr)
     logger.addHandler(fhlr)
