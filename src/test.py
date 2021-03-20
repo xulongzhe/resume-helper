@@ -4,7 +4,7 @@ import sys
 import datetime
 from config import logger
 
-def replay(session):
+def replay(session):    
     newly_resume_list = resume.history_resume_list(session)
     for summary in newly_resume_list:
         id = summary['id']
