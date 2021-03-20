@@ -66,4 +66,4 @@ if __name__ == '__main__':
             try:
                 forward(session)
             except Exception as e:
-                logger.error(e)
+                logger.exception(e)
