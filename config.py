@@ -1,11 +1,25 @@
 from typing import NamedTuple
 
 import rules
+import logging
 
 # 调试模式
 debug = True
 # 一天开始的时间
 start_hour = 7
+
+logger = logging.getLogger()
+logger.setLevel('INFO')
+basic_format = "[%(asctime)s %(levelname)s] %(message)s"
+date_format = '%Y-%m-%d %H:%M:%S'
+formatter = logging.Formatter(basic_format, date_format)
+chlr = logging.StreamHandler()
+chlr.setFormatter(formatter)
+chlr.setLevel('INFO')
+fhlr = logging.FileHandler('log/resume.log')
+fhlr.setFormatter(formatter)
+logger.addHandler(chlr)
+logger.addHandler(fhlr)
 
 
 # ========================== 拉钩网配置类 =======================

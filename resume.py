@@ -2,22 +2,20 @@ import datetime
 import json
 import re
 import time
-from logging import Logger
+import config
+from config import logger
 
 import requests
 
-import config
 from candidate import Candidate
-
-log: Logger = None
 
 
 def request_internal(method, headers, payload, url):
     if config.debug:
-        log.info(f"请求：{url}")
+        logger.info(f"请求：{url}")
     text = requests.request(method, url, headers=headers, data=payload).text
     if config.debug:
-        log.info(f"响应：{text}")
+        logger.info(f"响应：{text}")
     time.sleep(3 if config.debug else 10)
     resp = json.loads(text)
     return resp
@@ -25,12 +23,12 @@ def request_internal(method, headers, payload, url):
 
 def request_download(headers, url, path):
     if config.debug:
-        log.info(f"请求：{url}")
+        logger.info(f"请求：{url}")
     response = requests.request('GET', url, headers=headers, data={})
     with open(path, "wb") as code:
         code.write(response.content)
     time.sleep(3 if config.debug else 10)
-    log.info(f"下载简历：{path}")
+    logger.info(f"下载简历：{path}")
 
 
 def complete_list(lago):
@@ -138,7 +136,7 @@ def detail_by_id(lago, resume_id):
 
 
 def invite(lago, user_id, position_id):
-    log.info('符合条件, 发送邀请')
+    logger.info('符合条件, 发送邀请')
 
     url = f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}"
 
@@ -210,7 +208,8 @@ def chart_history(lago, user_id):
         'cookie': lago.cookie
     }
 
-    request_internal('POST', headers, payload, url)
+    result = request_internal('POST', headers, payload, url)
+    return result['content']['rows']
 
 
 def send_msg(lago, position_id, user_id, msg):
@@ -364,9 +363,9 @@ def match_all(employ_types: set, candidate: Candidate):
             continue
         reasons = match(candidate)
         if reasons:
-            log.info(
+            logger.info(
                 f'{candidate.name} 不符合{employ_type}条件：\n' + '\n'.join(f'\t{i + 1}. {r}' for i, r in enumerate(reasons)))
         else:
-            log.info(f'{candidate.name} 符合{employ_type}条件')
+            logger.info(f'{candidate.name} 符合{employ_type}条件')
             return employ_type
     return None

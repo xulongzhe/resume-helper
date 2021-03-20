@@ -2,16 +2,11 @@ import os
 import sys
 import time
 import datetime
-from logging import Logger
-
 import config
+from config import logger
 import mail
 import resume
 import util
-
-log: Logger = util.get_log('log/forward.log')
-resume.log = log
-
 
 def filter_newly_download(lago, resumes):
     for r in resumes:
@@ -19,13 +14,13 @@ def filter_newly_download(lago, resumes):
         name = r['candidateName']
         stage = r['stage']
         if stage == 'OBSOLETE':
-            log.info(f'{name} 已标记为不合适，跳过')
+            logger.info(f'{name} 已标记为不合适，跳过')
             continue
         detail = resume.detail_by_id(lago, resume_id)
         candidate = resume.parse_detail(detail)
         file_path = f'{config.resume_download_dir}/{lago.name}-{candidate.name}-{candidate.phone}.pdf'
         if os.path.exists(file_path):
-            log.info(f'简历 {os.path.basename(file_path)} 已存在')
+            logger.info(f'简历 {os.path.basename(file_path)} 已存在')
         else:
             resume.download(lago, resume_id, file_path)
             yield candidate, file_path
@@ -33,7 +28,7 @@ def filter_newly_download(lago, resumes):
 
 def filter_condition(lago, resumes):
     for candidate, file_path in resumes:
-        log.info(str(candidate))
+        logger.info(str(candidate))
         emp_type = resume.match_all(lago.employ_types, candidate)
         candidate = candidate._replace(employ_type=emp_type)
         if emp_type:
@@ -41,7 +36,7 @@ def filter_condition(lago, resumes):
 
 
 def forward(lago):
-    log.info(f'=== 岗位：{lago.name} ===')
+    logger.info(f'=== 岗位：{lago.name} ===')
     os.makedirs(config.resume_download_dir, exist_ok=True)
     resumes = resume.complete_list(lago)
     downloads = filter_newly_download(lago, resumes)
@@ -56,9 +51,9 @@ def forward(lago):
                        for _, candidate in need_sends]) + '</table>'
         attaches = [file_path for file_path, _, in need_sends]
         m.send(lago.email_receivers, title, content, attaches)
-        log.info(title)
+        logger.info(title)
     else:
-        log.info('没有收到新的简历')
+        logger.info('没有收到新的简历')
 
 
 if __name__ == '__main__':
@@ -66,10 +61,10 @@ if __name__ == '__main__':
         forward(config.lago_config[sys.argv[1]])
     else:
         if datetime.datetime.now().hour < config.start_hour:
-            log.info('晚上不跑')
+            logger.info('晚上不跑')
             exit()
         for key, lago in config.lago_config.items():
             try:
                 forward(lago)
             except Exception as e:
-                log.error(e)
+                logger.error(e)

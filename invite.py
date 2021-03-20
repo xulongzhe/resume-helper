@@ -1,19 +1,18 @@
 import sys
 import datetime
-from logging import Logger
+from config import logger
 
 import config
 import resume
 import util
 
-log: Logger = util.get_log('log/invite.log')
-resume.log = log
+
 
 
 def invite(lago):
-    log.info(f'=== 岗位：{lago.name} ===')
+    logger.info(f'=== 岗位：{lago.name} ===')
     for i in range(1, 5):
-        log.info(f'第{i}页')
+        logger.info(f'第{i}页')
         position_id, resumes = resume.list(lago, page=i)
         for header in resumes:
             fetchKey = header['resumeFetchKey']
@@ -24,7 +23,7 @@ def invite(lago):
             candidate = resume.parse_detail(detail)
             has_chat = r['hasChat']
             if has_chat:
-                log.info('已经聊过，跳过')
+                logger.info('已经聊过，跳过')
                 continue
 
             employ_type = resume.match_all(lago.employ_types, candidate)
@@ -38,10 +37,10 @@ if __name__ == '__main__':
         invite(config.lago_config[sys.argv[1]])
     else:
         if datetime.datetime.now().hour < config.start_hour:
-            log.info('晚上不跑')
+            logger.info('晚上不跑')
             exit()
         for key, lago in config.lago_config.items():
             try:
                 invite(lago)
             except Exception as e:
-                log.error(e)
+                logger.error(e)
