@@ -3,6 +3,7 @@ from typing import NamedTuple
 
 class Candidate(NamedTuple):
     resume_id: str
+    user_id: str
     name: str
     sex: str
     age: int

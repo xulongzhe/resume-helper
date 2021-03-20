@@ -1,7 +1,7 @@
 import datetime
 
 import config
-from resume import Candidate
+from candidate import Candidate
 
 
 def match_fresh_graduate(candidate: Candidate):

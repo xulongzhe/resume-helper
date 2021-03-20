@@ -18,7 +18,7 @@ def request_internal(method, headers, payload, url):
     text = requests.request(method, url, headers=headers, data=payload).text
     if config.debug:
         log.info(f"响应：{text}")
-    time.sleep(20)
+    time.sleep(3 if config.debug else 10)
     resp = json.loads(text)
     return resp
 
@@ -259,6 +259,7 @@ def download(lago, resume_id, path):
 
 def parse_detail(detail):
     resume_id = detail['resumeId']
+    user_id = detail['userId']
     name = detail['name']
     age = int(detail['ageNum'])
     sex = detail['sex']
@@ -307,6 +308,7 @@ def parse_detail(detail):
     over_year_work = has_over_year_work(work_experiences)
     return Candidate(
         resume_id=resume_id,
+        user_id=user_id,
         name=name,
         age=age,
         sex=sex,
