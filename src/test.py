@@ -1,6 +1,5 @@
 import resume
 import config
-import util
 from logging import Logger
 log: Logger = util.get_log('log/invite.log')
 resume.log = log

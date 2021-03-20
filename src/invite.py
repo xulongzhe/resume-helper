@@ -4,7 +4,6 @@ from config import logger
 
 import config
 import resume
-import util
 
 
 

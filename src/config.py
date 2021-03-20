@@ -8,9 +8,10 @@ debug = True
 # 一天开始的时间
 start_hour = 7
 
+# 日志框架
 logger = logging.getLogger()
 logger.setLevel('INFO')
-basic_format = "[%(asctime)s %(levelname)s] %(message)s"
+basic_format = "[%(asctime)s %(processName)s %(levelname)s] %(message)s"
 date_format = '%Y-%m-%d %H:%M:%S'
 formatter = logging.Formatter(basic_format, date_format)
 chlr = logging.StreamHandler()

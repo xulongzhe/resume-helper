@@ -6,7 +6,6 @@ import config
 from config import logger
 import mail
 import resume
-import util
 
 def filter_newly_download(lago, resumes):
     for r in resumes:

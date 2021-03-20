@@ -12,10 +12,10 @@ from candidate import Candidate
 
 def request_internal(method, headers, payload, url):
     if config.debug:
-        logger.info(f"请求：{url}")
+        logger.debug(f"请求：{url}")
     text = requests.request(method, url, headers=headers, data=payload).text
     if config.debug:
-        logger.info(f"响应：{text}")
+        logger.debug(f"响应：{text}")
     time.sleep(3 if config.debug else 10)
     resp = json.loads(text)
     return resp
@@ -23,12 +23,12 @@ def request_internal(method, headers, payload, url):
 
 def request_download(headers, url, path):
     if config.debug:
-        logger.info(f"请求：{url}")
+        logger.debug(f"请求：{url}")
     response = requests.request('GET', url, headers=headers, data={})
     with open(path, "wb") as code:
         code.write(response.content)
     time.sleep(3 if config.debug else 10)
-    logger.info(f"下载简历：{path}")
+    logger.debug(f"下载简历：{path}")
 
 
 def complete_list(lago):
