@@ -22,6 +22,7 @@ def filter_newly_download(session, resumes):
             logger.info(f'简历 {os.path.basename(file_path)} 已存在')
         else:
             resume.download(session, resume_id, file_path)
+            logger.info(f"下载简历：{file_path}")
             yield candidate, file_path
 
 

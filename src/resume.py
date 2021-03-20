@@ -28,7 +28,6 @@ def request_download(headers, url, path):
     with open(path, "wb") as code:
         code.write(response.content)
     time.sleep(3 if config.debug else 10)
-    logger.info(f"下载简历：{path}")
 
 
 def history_resume_list(session, page=1):
