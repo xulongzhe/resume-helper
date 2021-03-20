@@ -12,7 +12,7 @@ def invite(lago):
     logger.info(f'=== 岗位：{lago.name} ===')
     for i in range(1, 5):
         logger.info(f'第{i}页')
-        position_id, resumes = resume.list(lago, page=i)
+        position_id, resumes = resume.newly_resume_list(lago, page=i)
         for header in resumes:
             fetchKey = header['resumeFetchKey']
             user_id = header['userId']

@@ -28,12 +28,12 @@ def request_download(headers, url, path):
     with open(path, "wb") as code:
         code.write(response.content)
     time.sleep(3 if config.debug else 10)
-    logger.debug(f"下载简历：{path}")
+    logger.info(f"下载简历：{path}")
 
 
-def complete_list(lago):
+def history_resume_list(lago, page=1):
     url = "https://easy.lagou.com/can/new/list.json"
-    payload = {}
+    payload = f'can=false&needQueryAmount=false&pageNo={page}&famousCompany=0'
     headers = {
         'authority': 'easy.lagou.com',
         'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
@@ -57,7 +57,7 @@ def complete_list(lago):
     return j['content']['rows']
 
 
-def list(lago, page):
+def newly_resume_list(lago, page):
     url = f"https://easy.lagou.com/talent/rec/{page}.json?positionId={lago.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false"
     payload = {}
     headers = {
@@ -258,7 +258,7 @@ def download(lago, resume_id, path):
 
 def parse_detail(detail):
     resume_id = detail['resumeId']
-    user_id = detail['userId']
+    user_id = str(detail['userId'])
     name = detail['name']
     age = int(detail['ageNum'])
     sex = detail['sex']

@@ -37,7 +37,7 @@ def filter_condition(lago, resumes):
 def forward(lago):
     logger.info(f'=== 岗位：{lago.name} ===')
     os.makedirs(config.resume_download_dir, exist_ok=True)
-    resumes = resume.complete_list(lago)
+    resumes = resume.history_resume_list(lago)
     downloads = filter_newly_download(lago, resumes)
     need_sends = list(filter_condition(lago, downloads))
     if need_sends:

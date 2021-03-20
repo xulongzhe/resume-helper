@@ -1,3 +1,3 @@
 DIR=$(cd "$(dirname "$0")";pwd)
-cd ${DIR}/src
-python3 invite.py $@
+cd ${DIR}
+python3 src/invite.py $@
