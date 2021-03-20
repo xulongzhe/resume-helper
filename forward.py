@@ -47,10 +47,13 @@ def forward(lago):
     downloads = filter_newly_download(lago, resumes)
     need_sends = list(filter_condition(lago, downloads))
     if need_sends:
-        m = mail.Email(config.email_sender, config.email_smtp_sever, config.email_sender, config.email_password)
+        m = mail.Email(config.email_sender, config.email_smtp_sever,
+                       config.email_sender, config.email_password)
         now = time.strftime("%Y-%m-%d %H:%M", time.localtime())
         title = f'{now} 收到 {lago.name} 简历{len(need_sends)}份'
-        content = '<table>' + '\n'.join([candidate.html() for _, candidate in need_sends]) + '</table>'
+        content = '<table>' + \
+            '\n'.join([candidate.html()
+                       for _, candidate in need_sends]) + '</table>'
         attaches = [file_path for file_path, _, in need_sends]
         m.send(lago.email_receivers, title, content, attaches)
         log.info(title)

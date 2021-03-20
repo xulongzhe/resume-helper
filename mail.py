@@ -27,7 +27,8 @@ class Email:
         for attach in attaches:
             file = open(attach, 'rb')
             payload = MIMEApplication(file.read())
-            payload.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file.name))
+            payload.add_header('Content-Disposition', 'attachment',
+                               filename=os.path.basename(file.name))
             message.attach(payload)
 
         smtpObj = smtplib.SMTP_SSL(self.smtpserver)

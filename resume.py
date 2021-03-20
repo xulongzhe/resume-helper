@@ -265,7 +265,8 @@ def parse_detail(detail):
     phone = detail.get('phone', '')
     email = detail.get('email', '')
     # 判定学历
-    match_education = re.match('小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
+    match_education = re.match(
+        '小学|初中|高中|专科|本科|硕士|博士', detail['highestEducation'])
     if match_education:
         highest_education = match_education.group()
     else:
@@ -297,7 +298,7 @@ def parse_detail(detail):
 
     # 毕业季前，今年毕业的是应届，毕业季后，明年毕业的是应届
     fresh_graduate = (now.month <= config.graduate_month and now.year == graduate_year) \
-                     or (now.month > config.graduate_month and now.year + 1 == graduate_year)
+        or (now.month > config.graduate_month and now.year + 1 == graduate_year)
 
     workYear = detail['workYear']
     work_years = workYear.rstrip('年') if workYear.endswith('年') else 0
@@ -346,8 +347,10 @@ def has_over_year_work(work_experiences):
             # 未填写在职时间
             continue
         now = datetime.datetime.now()
-        start_time = now if start == '至今' else datetime.datetime.strptime(start, '%Y.%m')
-        end_time = now if end == '至今' else datetime.datetime.strptime(end, '%Y.%m')
+        start_time = now if start == '至今' else datetime.datetime.strptime(
+            start, '%Y.%m')
+        end_time = now if end == '至今' else datetime.datetime.strptime(
+            end, '%Y.%m')
         if (end_time - start_time).days > 365:
             return True
     return False
