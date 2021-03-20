@@ -4,13 +4,13 @@ import sys
 import datetime
 from config import logger
 
-def replay(lago):
-    newly_resume_list = resume.history_resume_list(lago)
+def replay(session):
+    newly_resume_list = resume.history_resume_list(session)
     for summary in newly_resume_list:
         id = summary['id']
-        detail = resume.detail_by_id(lago, id)
+        detail = resume.detail_by_id(session, id)
         candidate = resume.parse_detail(detail)
-        conversation = resume.chart_history(lago , candidate.user_id)
+        conversation = resume.chart_history(session , candidate.user_id)
         for one in conversation:
             sender = one['senderId']
             if one['msgType'] != 0:
@@ -29,8 +29,8 @@ if __name__ == '__main__':
         if datetime.datetime.now().hour < config.start_hour:
             logger.info('晚上不跑')
             exit()
-        for key, lago in config.lago_config.items():
+        for key, session in config.lago_config.items():
             try:
-                replay(lago)
+                replay(session)
             except Exception as e:
-                logger.error(e)
+                logger.exception(e)

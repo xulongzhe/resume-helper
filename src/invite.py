@@ -8,16 +8,16 @@ import resume
 
 
 
-def invite(lago):
-    logger.info(f'=== 岗位：{lago.name} ===')
+def invite(session):
+    logger.info(f'=== 岗位：{session.name} ===')
     for i in range(1, 5):
         logger.info(f'第{i}页')
-        position_id, resumes = resume.newly_resume_list(lago, page=i)
+        position_id, resumes = resume.newly_resume_list(session, page=i)
         for header in resumes:
             fetchKey = header['resumeFetchKey']
             user_id = header['userId']
             job_id = header['expectJobId']
-            r = resume.detail_by_key(lago, fetchKey, job_id)
+            r = resume.detail_by_key(session, fetchKey, job_id)
             detail = r['resume']
             candidate = resume.parse_detail(detail)
             has_chat = r['hasChat']
@@ -25,10 +25,10 @@ def invite(lago):
                 logger.info('已经聊过，跳过')
                 continue
 
-            employ_type = resume.match_all(lago.employ_types, candidate)
+            employ_type = resume.match_all(session.employ_types, candidate)
             if not employ_type:
                 continue
-            resume.invite(lago, user_id=user_id, position_id=position_id)
+            resume.invite(session, user_id=user_id, position_id=position_id)
 
 
 if __name__ == '__main__':
@@ -38,8 +38,8 @@ if __name__ == '__main__':
         if datetime.datetime.now().hour < config.start_hour:
             logger.info('晚上不跑')
             exit()
-        for key, lago in config.lago_config.items():
+        for key, session in config.lago_config.items():
             try:
-                invite(lago)
+                invite(session)
             except Exception as e:
-                logger.error(e)
+                logger.exception(e)

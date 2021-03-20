@@ -31,7 +31,7 @@ def request_download(headers, url, path):
     logger.info(f"下载简历：{path}")
 
 
-def history_resume_list(lago, page=1):
+def history_resume_list(session, page=1):
     url = "https://easy.lagou.com/can/new/list.json"
     payload = f'can=false&needQueryAmount=false&pageNo={page}&famousCompany=0'
     headers = {
@@ -50,15 +50,15 @@ def history_resume_list(lago, page=1):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/resume/list.htm?can=false&famousCompany=0&needQueryAmount=false&pageNo=3',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     j = request_internal('POST', headers, payload, url)
     return j['content']['rows']
 
 
-def newly_resume_list(lago, page):
-    url = f"https://easy.lagou.com/talent/rec/{page}.json?positionId={lago.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false"
+def newly_resume_list(session, page=1):
+    url = f"https://easy.lagou.com/talent/rec/{page}.json?positionId={session.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false"
     payload = {}
     headers = {
         'authority': 'easy.lagou.com',
@@ -73,9 +73,9 @@ def newly_resume_list(lago, page):
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'cors',
         'sec-fetch-dest': 'empty',
-        'referer': f'https://easy.lagou.com/talent/index.htm?positionId={lago.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false&tab=rec&pageNo={page}',
+        'referer': f'https://easy.lagou.com/talent/index.htm?positionId={session.root_position_id}&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false&tab=rec&pageNo={page}',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
     j = request_internal('GET', headers, payload, url)
 
@@ -84,7 +84,7 @@ def newly_resume_list(lago, page):
     return current_position_id, result_list
 
 
-def detail_by_key(lago, fetch_key, expect_job_id):
+def detail_by_key(session, fetch_key, expect_job_id):
     url = f"https://easy.lagou.com/search/resume/fetchResume.json?resumeFetchKey={fetch_key}==&expectJobId={expect_job_id}"
 
     payload = {}
@@ -103,14 +103,14 @@ def detail_by_key(lago, fetch_key, expect_job_id):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/talent/index.htm?positionId=7815536&showId=51fdfb4d4979458ba247963f62f6633b&notSeen=false&strongly=false&tab=rec&pageNo=1&show_id=51fdfb4d4979458ba247963f62f6633b',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     j = request_internal('GET', headers, payload, url)
     return j['content']['data']['data']
 
 
-def detail_by_id(lago, resume_id):
+def detail_by_id(session, resume_id):
     url = f"https://easy.lagou.com/resume/order/{resume_id}.json?"
     payload = {}
     headers = {
@@ -128,14 +128,14 @@ def detail_by_id(lago, resume_id):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/can/new/index.htm?can=true&famousCompany=0&needQueryAmount=true&pageNo=1&pageSize=20&stage=NEW',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     j = request_internal('GET', headers, payload, url)
     return j['content']['data']['resumeVo']
 
 
-def invite(lago, user_id, position_id):
+def invite(session, user_id, position_id):
     logger.info('符合条件, 发送邀请')
 
     url = f"https://easy.lagou.com/im/chat/colleagueChatInfo.json?cUserId={user_id}&positionId={position_id}"
@@ -156,7 +156,7 @@ def invite(lago, user_id, position_id):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/talent/index.htm?positionId=7815536&showId=fb812673629f43f28ff64c2d4d584039&notSeen=false&strongly=false&tab=rec&pageNo=1&show_id=fb812673629f43f28ff64c2d4d584039',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     j = request_internal('GET', headers, payload, url)
@@ -164,7 +164,7 @@ def invite(lago, user_id, position_id):
 
     url = f"https://easy.lagou.com/im/session/batchCreate/{session_id}.json"
 
-    payload = f"greetingId={lago.greeting_id}&positionId={position_id}&inviteDeliver=true"
+    payload = f"greetingId={session.greeting_id}&positionId={position_id}&inviteDeliver=true"
     headers = {
         'authority': 'easy.lagou.com',
         'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
@@ -181,13 +181,13 @@ def invite(lago, user_id, position_id):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/talent/index.htm?positionId=7815536&showId=fb812673629f43f28ff64c2d4d584039&notSeen=false&strongly=false&tab=rec&pageNo=1&show_id=fb812673629f43f28ff64c2d4d584039',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     request_internal('POST', headers, payload, url)
 
 
-def chart_history(lago, user_id):
+def chart_history(session, user_id):
     url = "https://easy.lagou.com/im/chat/fetch_history_messages_page.json"
 
     payload = f"sessionId={user_id}&maxMsgId=9223372036854775807&pageSize=10"
@@ -205,14 +205,14 @@ def chart_history(lago, user_id):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/im/chat/index.htm?',
         'accept-language': 'zh-CN,zh;q=0.9',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     result = request_internal('POST', headers, payload, url)
     return result['content']['rows']
 
 
-def send_msg(lago, position_id, user_id, msg):
+def send_msg(session, position_id, user_id, msg):
     url = f"https://easy.lagou.com/im/chat/send/{user_id}.json"
 
     payload = f"content={msg}&attach=9rchwz5diyc&lagouPositionId={position_id}&msgType=0"
@@ -230,13 +230,13 @@ def send_msg(lago, position_id, user_id, msg):
         'sec-fetch-dest': 'empty',
         'referer': 'https://easy.lagou.com/im/chat/index.htm?',
         'accept-language': 'zh-CN,zh;q=0.9',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
 
     request_internal('POST', headers, payload, url)
 
 
-def download(lago, resume_id, path):
+def download(session, resume_id, path):
     url = f"https://easy.lagou.com/resume/download.htm?resumeId={resume_id}&preview=2"
     headers = {
         'authority': 'easy.lagou.com',
@@ -251,7 +251,7 @@ def download(lago, resume_id, path):
         'sec-fetch-dest': 'document',
         'referer': 'https://easy.lagou.com/resume/list.htm?can=false&famousCompany=0&needQueryAmount=false&pageNo=1',
         'accept-language': 'zh-CN,zh;q=0.9,ta;q=0.8,en;q=0.7',
-        'cookie': lago.cookie
+        'cookie': session.cookie
     }
     request_download(headers, url, path)
 
