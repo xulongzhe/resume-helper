@@ -116,7 +116,7 @@ matchers = [
 
 # ========================== 邮件配置 =======================
 # 简历下载路径
-resume_download_dir = '../download'
+resume_download_dir = 'download'
 # 发送邮箱
 email_sender = 'tel15258826527@sina.com'
 # 邮箱密码
