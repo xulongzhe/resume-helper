@@ -16,7 +16,7 @@ def request_internal(method, headers, payload, url):
     text = requests.request(method, url, headers=headers, data=payload).text
     if config.debug:
         logger.debug(f"响应：{text}")
-    time.sleep(3 if config.debug else 10)
+    time.sleep(3 if config.debug else 20)
     resp = json.loads(text)
     return resp
 
@@ -27,7 +27,7 @@ def request_download(headers, url, path):
     response = requests.request('GET', url, headers=headers, data={})
     with open(path, "wb") as code:
         code.write(response.content)
-    time.sleep(3 if config.debug else 10)
+    time.sleep(3 if config.debug else 20)
 
 
 def history_resume_list(session, page=1):
