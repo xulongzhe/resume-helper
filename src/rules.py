@@ -60,9 +60,13 @@ def match_outsource(candidate: Candidate):
     if candidate.education not in ['本科', '硕士']:
         reasons.append('学历本科以下或专升本')
 
+    if  candidate.college_name in config.top_college_china and \
+        config.top_college_china.index(candidate.college_name) > 300:
+        reasons.append('学校不符合要求')
+
     # 薪资预期过高的不要
     provide_salary = candidate.out_school_years + \
-        config.outsource_salary + config.max_salary_float_formal
+        config.outsource_salary + config.max_salary_float_outsource
     if candidate.expect_least_salary > provide_salary:
         reasons.append(
             f'预期薪资过高：{candidate.education} 毕业{candidate.out_school_years}年 {candidate.expect_least_salary}k（建议{provide_salary}k）')
