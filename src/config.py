@@ -60,17 +60,17 @@ lago_config = {
             'konghuadi@uniview.com'
         ]
     ),
-    'jinan': LagoConfig(
-        name='济南java正式',
-        cookie=cookie.fetch_cookie('Profile 2'),
-        root_position_id='7823880',
-        greeting_id='16871675_b_1',
-        employ_types={'社招正式'},
-        email_receivers=[
-            '942980741@qq.com',
-            'wangxiuzi@uniview.com'
-        ]
-    )
+    # 'jinan': LagoConfig(
+    #     name='济南java正式',
+    #     cookie=cookie.fetch_cookie('Profile 2'),
+    #     root_position_id='7823880',
+    #     greeting_id='16871675_b_1',
+    #     employ_types={'社招正式'},
+    #     email_receivers=[
+    #         '942980741@qq.com',
+    #         'wangxiuzi@uniview.com'
+    #     ]
+    # )
 }
 
 # ========================== 筛选条件配置 =======================
