@@ -61,7 +61,7 @@ lago_config = {
         ]
     ),
     'test': LagoConfig(
-        name='杭州测试正式',
+        name='杭州测试',
         cookie=cookie.fetch_cookie('Profile 2'),
         root_position_id='8448496',
         greeting_id='20653133_b_1',
@@ -72,7 +72,7 @@ lago_config = {
         ]
     ),
     'jinan': LagoConfig(
-        name='济南java正式',
+        name='济南java',
         cookie=cookie.fetch_cookie('Profile 1'),
         root_position_id='7823880',
         greeting_id='16871675_b_1',
