@@ -46,7 +46,7 @@ def forward(session):
                        config.email_sender, config.email_password)
         now = time.strftime("%Y-%m-%d %H:%M", time.localtime())
         title = f'{now} 收到 {session.name} 简历{len(need_sends)}份'
-        content = '<table>' + \
+        content = '<table border="1" cellspacing="0">' + \
             '\n'.join([candidate.html()
                        for _, candidate in need_sends]) + '</table>'
         attaches = [file_path for file_path, _, in need_sends]
